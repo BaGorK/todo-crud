@@ -1,15 +1,28 @@
 exports.getAllTasks = (req, res) => {
-  res.send('All Tasks');
+  return res.send('All Tasks');
+};
+
+exports.getTask = (req, res) => {
+  return res.json({
+    id: req.params.id,
+  });
 };
 
 exports.createTask = (req, res) => {
-  res.send('create new task');
+  const newTask = { ...req.body, id: '1', completed: true };
+
+  return res.status(200).json({
+    status: 'succes',
+    data: {
+      task: newTask,
+    },
+  });
 };
 
 exports.updateTask = (req, res) => {
-  res.send('update new task');
+  return res.send('update new task');
 };
 
 exports.deleteTask = (req, res) => {
-  res.send('task deleted');
+  return res.send('task deleted');
 };
