@@ -1,21 +1,22 @@
 const Task = require('../models/TaskModel');
 
 exports.getAllTasks = async (req, res) => {
-  const tasks = await Task.find();
+  try {
+    const tasks = await Task.find();
 
-  return res.status(200).json({
-    status: 'success',
-    length: tasks.length,
-    data: {
-      tasks,
-    },
-  });
-};
-
-exports.getTask = (req, res) => {
-  return res.json({
-    id: req.params.id,
-  });
+    return res.status(200).json({
+      status: 'success',
+      length: tasks.length,
+      data: {
+        tasks,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 'error',
+      error: err,
+    });
+  }
 };
 
 exports.createTask = async (req, res) => {
@@ -29,9 +30,25 @@ exports.createTask = async (req, res) => {
       },
     });
   } catch (err) {
-    console.log(err);
+    return res.status(400).json({
+      status: 'fail',
+      error: err,
+    });
+  }
+};
 
-    res.status(400).json({
+exports.getTask = async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.id);
+
+    return res.status(200).json({
+      status: 'success',
+      data: {
+        task,
+      },
+    });
+  } catch (err) {
+    return res.status(400).json({
       status: 'fail',
       error: err,
     });
