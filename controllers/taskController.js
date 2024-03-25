@@ -39,7 +39,14 @@ exports.createTask = async (req, res) => {
 
 exports.getTask = async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
+    const { id: taskID } = req.params;
+    const task = await Task.findById(taskID);
+
+    if (!task)
+      return res.status(404).json({
+        status: 'fail',
+        msg: `there is no task found with id: ${taskID}`,
+      });
 
     return res.status(200).json({
       status: 'success',
@@ -59,6 +66,21 @@ exports.updateTask = (req, res) => {
   return res.send('update new task');
 };
 
-exports.deleteTask = (req, res) => {
-  return res.send('task deleted');
+exports.deleteTask = async (req, res) => {
+  try {
+    const task = await Task.findByIdAndDelete(req.params.id);
+
+    if (!task)
+      return res.status(404).json({
+        status: 'fail',
+        msg: `there is no task found with id: ${taskID}`,
+      });
+
+    return res.status(204).json({ status: 'success' });
+  } catch (err) {
+    return res.status(400).json({
+      status: 'fail',
+      error: err,
+    });
+  }
 };
