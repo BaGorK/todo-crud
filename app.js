@@ -3,6 +3,7 @@ const taskRouter = require('./routes/tasksRoute');
 const app = express();
 
 // middleware
+app.use(express.static(`./public`));
 app.use(express.json());
 
 // routes
