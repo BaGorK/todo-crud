@@ -19,14 +19,23 @@ exports.getTask = (req, res) => {
 };
 
 exports.createTask = async (req, res) => {
-  const task = await Task.create(req.body);
+  try {
+    const task = await Task.create(req.body);
 
-  return res.status(201).json({
-    status: 'succes',
-    data: {
-      task: task,
-    },
-  });
+    return res.status(201).json({
+      status: 'succes',
+      data: {
+        task: task,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+
+    res.status(400).json({
+      status: 'fail',
+      error: err,
+    });
+  }
 };
 
 exports.updateTask = (req, res) => {

@@ -1,6 +1,5 @@
 const express = require('express');
 const taskRouter = require('./routes/tasksRoute');
-
 const app = express();
 
 // middleware
