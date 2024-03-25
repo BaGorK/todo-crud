@@ -2,17 +2,17 @@ const express = require('express');
 const taskRouter = require('./routes/tasksRoute');
 const mongoose = require('mongoose');
 
-// const dotenv = require('dotenv');
-// dotenv.config(`${__dirname}/config.env`);
+const dotenv = require('dotenv');
+dotenv.config(`${__dirname}/.env`);
 
 const app = express();
-// const databaseUrl = process.env.DB.replace('<PASSWORD>', process.env.DB_PASS);
 
 mongoose
-  .connect(
-    'mongodb+srv://edmealem:1234@task-manager-crud.qywqfbm.mongodb.net/task-manager?retryWrites=true&w=majority'
-  )
-  .then(() => console.log('database succefully connected'));
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log('database connected successfully');
+  })
+  .catch((err) => console.log(err));
 
 // middleware
 app.use(express.json());
